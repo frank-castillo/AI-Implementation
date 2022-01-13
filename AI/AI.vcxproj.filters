@@ -7,6 +7,12 @@
     <Filter Include="Src">
       <UniqueIdentifier>{aa8084ee-a8be-4bc3-bb80-b53d4aa0ad1a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Inc\Pathing">
+      <UniqueIdentifier>{69efdfa3-857f-47e7-b9c9-cef70fc819d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Pathing">
+      <UniqueIdentifier>{28bae41a-3f5c-4e16-bbaf-9557028ac65c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\AI.h">
@@ -18,10 +24,16 @@
     <ClInclude Include="Inc\Common.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\GridBasedGraph.h">
+      <Filter>Inc\Pathing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
       <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GridBasedGraph.cpp">
+      <Filter>Src\Pathing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

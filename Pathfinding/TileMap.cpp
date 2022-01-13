@@ -1,5 +1,7 @@
 #include "TileMap.h"
 
+using namespace AI;
+
 namespace
 {
 	constexpr float TILE_SIZE = 32.0f;
@@ -67,6 +69,8 @@ void TileMap::Render()
 			X::DrawSprite(textureId, worldPosition, X::Pivot::TopLeft);
 		}
 	}
+
+	// TODO - Use X::DrawScreenLine to visualize the graph
 }
 
 void TileMap::LoadMap(const std::filesystem::path& fileName)
@@ -94,6 +98,12 @@ void TileMap::LoadMap(const std::filesystem::path& fileName)
 
 		fclose(file);
 	}
+
+	mGraph.Initialize(mColumns, mRows);
+
+	// Make double for loop to connect node to neighbours
+	//mGraph.GetNode(4,5)->neighbours[GridBasedGraph::East] = mGraph.GetNode(5,5)
+	// Use the IsBlocked function to see if it should be added
 }
 
 void TileMap::LoadTextures(const std::filesystem::path& fileName)
@@ -117,6 +127,13 @@ void TileMap::LoadTextures(const std::filesystem::path& fileName)
 			mTiles.push_back(X::LoadTexture(buffer));
 		}
 	}
+}
+
+bool TileMap::IsBlocked(int x, int y) const
+{
+	const int tile = mMap[GetIndex(x, y)];
+	const bool blocked = mBlocked[tile];
+	return blocked;
 }
 
 int TileMap::GetIndex(int column, int row) const
