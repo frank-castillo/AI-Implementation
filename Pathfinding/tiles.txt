@@ -1,8 +1,8 @@
-Count: 7
-grass.png
-water.png
-stone.png
-tree0.png
-tree1.png
-tree2.png
-tree3.png
+Tiles: 7
+grass.png 0
+water.png 0
+stone.png 1
+tree0.png 1
+tree1.png 1
+tree2.png 1
+tree3.png 1

@@ -20,11 +20,17 @@ namespace AI
 		struct Node
 		{
 			std::array<Node*, 8> neighbours = {};
-			int columns{ 0 };
+			int column{ 0 };
 			int row{ 0 };
+
+			// Search params
+			Node* parent = nullptr;
+			bool inOpenList = false;
+			bool inClosedList = false;
 		};
 
 		void Initialize(int columns, int rows);
+		void ResetSearchParams();
 
 		Node* GetNode(int x, int y); // This allows to modify a node
 		const Node* GetNode(int x, int y) const; // This won't allow to modify a node

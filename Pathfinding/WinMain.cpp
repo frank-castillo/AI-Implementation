@@ -50,3 +50,4 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	X::Stop();
 	return 0;
 }
+

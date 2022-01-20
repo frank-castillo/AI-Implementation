@@ -9,15 +9,50 @@ void GridBasedGraph::Initialize(int columns, int rows)
 	// Resize mNodes to the matching dimension
 	// For each node, set it's attributes (row/column)
 	// However, the connection is up to the user
+
+	mNodes.clear();
+	mNodes.reserve(columns * rows);
+	mColumns = columns;
+	mRows = rows;
+
+	for (int c = 0; c < rows; ++c)
+	{
+		for (int r = 0; r < columns; ++r)
+		{
+			auto& node = mNodes.emplace_back();
+			node.column = c;
+			node.row = r;
+		}
+	}
+
+	// Remember, memory is just one giant row of data
+}
+
+void GridBasedGraph::ResetSearchParams()
+{
+	for (auto& node : mNodes)
+	{
+		node.parent = nullptr;
+		node.inOpenList = false;
+		node.inClosedList = false;
+	}
 }
 
 GridBasedGraph::Node* GridBasedGraph::GetNode(int x, int y)
 {
+	if (x < 0 || x >= mColumns || y < 0 || y >= mRows)
+		return nullptr;
+
+	const int index = GetIndex(x, y);
 	return nullptr;
 }
 
 const GridBasedGraph::Node* GridBasedGraph::GetNode(int x, int y) const
 {
+	if (x < 0 || x >= mColumns || y < 0 || y >= mRows)
+		return nullptr;
+
+	const int index = GetIndex(x, y);
 	return nullptr;
 }
 
