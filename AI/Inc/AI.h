@@ -4,3 +4,4 @@
 
 // Pathing headers
 #include "GridBasedGraph.h"
+#include "BFS.h"
