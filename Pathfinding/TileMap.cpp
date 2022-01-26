@@ -40,54 +40,8 @@ TileMap& TileMap::Get()
 
 void TileMap::Load(const std::filesystem::path& mapFileName, const char* textureFileName)
 {
-	LoadMap(mapFileName);
 	LoadTextures(textureFileName);
-}
-
-void TileMap::Unload()
-{
-	mColumns = 0;
-	mRows = 0;
-	mMap.clear();
-	mTiles.clear();
-}
-
-void TileMap::Update(float deltaTime)
-{
-}
-
-void TileMap::Render()
-{
-	int x, y, index = 0;
-	X::Math::Vector2 pos;
-
-	for (pos.y = 0.0f, y = 0; y < mRows; ++y, pos.y += mTileWidth)
-	{
-		for (x = 0, pos.x = 0.0f; x < mColumns; ++x, pos.x += mTileHeight)
-		{
-			const auto tileIndex = mMap[index++];
-			const auto tileId = mTiles[tileIndex];
-			X::DrawSprite(tileId, pos, 0.0f, X::Pivot::TopLeft);
-		}
-	}
-
-	for (int r = 0; r < mRows; ++r)
-	{
-		for (int c = 0; c < mColumns; ++c)
-		{
-			const auto node = mGraph.GetNode(c, r);
-			for (const auto neighbor : node->neighbours)
-			{
-				if (neighbor == nullptr)
-					continue;
-
-				const auto a = GetPixelPosition(node->column, node->row);
-				const auto b = GetPixelPosition(neighbor->column, neighbor->row);
-				X::DrawScreenLine(a, b, X::Colors::Blue);
-			}
-		}
-	}
-	// TODO - Use X::DrawScreenLine to visualize the graph
+	LoadMap(mapFileName);
 }
 
 void TileMap::LoadMap(const std::filesystem::path& fileName)
@@ -189,6 +143,52 @@ void TileMap::LoadTextures(const char* fileName)
 	mTileHeight = X::GetSpriteHeight(mTiles.front());
 }
 
+void TileMap::Update(float deltaTime)
+{
+}
+
+void TileMap::Render()
+{
+	int x, y, index = 0;
+	X::Math::Vector2 pos;
+
+	for (pos.y = 0.0f, y = 0; y < mRows; ++y, pos.y += mTileWidth)
+	{
+		for (x = 0, pos.x = 0.0f; x < mColumns; ++x, pos.x += mTileHeight)
+		{
+			const auto tileIndex = mMap[index++];
+			const auto tileId = mTiles[tileIndex];
+			X::DrawSprite(tileId, pos, 0.0f, X::Pivot::TopLeft);
+		}
+	}
+
+	for (int r = 0; r < mRows; ++r)
+	{
+		for (int c = 0; c < mColumns; ++c)
+		{
+			const auto node = mGraph.GetNode(c, r);
+			for (const auto neighbor : node->neighbours)
+			{
+				if (neighbor == nullptr)
+					continue;
+
+				const auto a = GetPixelPosition(node->column, node->row);
+				const auto b = GetPixelPosition(neighbor->column, neighbor->row);
+				X::DrawScreenLine(a, b, X::Colors::Blue);
+			}
+		}
+	}
+	// TODO - Use X::DrawScreenLine to visualize the graph
+}
+
+void TileMap::Unload()
+{
+	mColumns = 0;
+	mRows = 0;
+	mMap.clear();
+	mTiles.clear();
+}
+
 X::Math::Vector2 TileMap::GetPixelPosition(int x, int y) const
 {
 	return
@@ -196,6 +196,18 @@ X::Math::Vector2 TileMap::GetPixelPosition(int x, int y) const
 		(x + 0.5f) * mTileWidth,
 		(y + 0.5f) * mTileHeight
 	};
+}
+
+bool TileMap::IsBlocked(int x, int y) const
+{
+	const int tile = mMap[GetIndex(x, y)];
+	const bool blocked = mBlocked[tile];
+	return blocked;
+}
+
+int TileMap::GetIndex(int column, int row) const
+{
+	return column + (row * mColumns);
 }
 
 std::vector<X::Math::Vector2> TileMap::FindPathBFS(int startX, int startY, int endX, int endY)
@@ -219,16 +231,4 @@ std::vector<X::Math::Vector2> TileMap::FindPathBFS(int startX, int startY, int e
 	}
 
 	return path;
-}
-
-bool TileMap::IsBlocked(int x, int y) const
-{
-	const int tile = mMap[GetIndex(x, y)];
-	const bool blocked = mBlocked[tile];
-	return blocked;
-}
-
-int TileMap::GetIndex(int column, int row) const
-{
-	return column + (row * mColumns);
 }

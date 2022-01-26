@@ -15,9 +15,9 @@ void GridBasedGraph::Initialize(int columns, int rows)
 	mColumns = columns;
 	mRows = rows;
 
-	for (int c = 0; c < rows; ++c)
+	for (int r = 0; r < rows; ++r)
 	{
-		for (int r = 0; r < columns; ++r)
+		for (int c = 0; c < columns; ++c)
 		{
 			auto& node = mNodes.emplace_back();
 			node.column = c;
@@ -44,7 +44,7 @@ GridBasedGraph::Node* GridBasedGraph::GetNode(int x, int y)
 		return nullptr;
 
 	const int index = GetIndex(x, y);
-	return nullptr;
+	return &mNodes[index];
 }
 
 const GridBasedGraph::Node* GridBasedGraph::GetNode(int x, int y) const
@@ -53,7 +53,7 @@ const GridBasedGraph::Node* GridBasedGraph::GetNode(int x, int y) const
 		return nullptr;
 
 	const int index = GetIndex(x, y);
-	return nullptr;
+	return &mNodes[index];
 }
 
 int GridBasedGraph::GetIndex(int x, int y) const
