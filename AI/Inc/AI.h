@@ -5,3 +5,5 @@
 // Pathing headers
 #include "GridBasedGraph.h"
 #include "BFS.h"
+#include "DFS.h"
+#include "Dijkastra.h"

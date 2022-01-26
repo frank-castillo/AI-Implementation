@@ -27,6 +27,8 @@ namespace AI
 			Node* parent = nullptr;
 			bool inOpenList = false;
 			bool inClosedList = false;
+			float g = 0.0f;
+			float h = 0.0f;
 		};
 
 		void Initialize(int columns, int rows);
