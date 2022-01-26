@@ -24,7 +24,6 @@ void GridBasedGraph::Initialize(int columns, int rows)
 			node.row = r;
 		}
 	}
-
 	// Remember, memory is just one giant row of data
 }
 
