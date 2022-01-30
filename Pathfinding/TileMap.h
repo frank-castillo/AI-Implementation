@@ -20,12 +20,12 @@ public:
 	bool IsBlocked(int x, int y) const;
 
 	std::vector<X::Math::Vector2> FindPathBFS(int startX, int startY, int endX, int endY);
+	X::Math::Vector2 GetPixelPosition(int x, int y) const;
 
 private:
 	void LoadMap(const std::filesystem::path& fileName);
 	void LoadTextures(const char* fileName);
 	int GetIndex(int column, int row) const;
-	X::Math::Vector2 GetPixelPosition(int x, int y) const;
 	
 	AI::GridBasedGraph mGraph;
 	AI::NodeList mClosedList;
