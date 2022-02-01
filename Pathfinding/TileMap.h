@@ -20,13 +20,18 @@ public:
 	bool IsBlocked(int x, int y) const;
 
 	std::vector<X::Math::Vector2> FindPathBFS(int startX, int startY, int endX, int endY);
+	std::vector<X::Math::Vector2> FindPathDFS(int startX, int startY, int endX, int endY);
+	std::vector<X::Math::Vector2> FindPathDijkastra(int startX, int startY, int endX, int endY);
+	std::vector<X::Math::Vector2> FindPathAStar(int startX, int startY, int endX, int endY);
+
 	X::Math::Vector2 GetPixelPosition(int x, int y) const;
 
 private:
 	void LoadMap(const std::filesystem::path& fileName);
 	void LoadTextures(const char* fileName);
 	int GetIndex(int column, int row) const;
-	
+	float GetCost(const AI::GridBasedGraph::Node* nodeA, const AI::GridBasedGraph::Node* nodeB) const;
+
 	AI::GridBasedGraph mGraph;
 	AI::NodeList mClosedList;
 	std::vector<int> mMap;

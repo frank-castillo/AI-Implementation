@@ -6,6 +6,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="PathMethods.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="tiles.txt" />

@@ -1,5 +1,5 @@
 #include "Precompiled.h"
-#include "Dijkastra.h"
+#include "AStar.h"
 
 using namespace AI;
 
@@ -7,29 +7,11 @@ namespace
 {
 	bool List_Sorter(const GridBasedGraph::Node* nodeA, const GridBasedGraph::Node* nodeB)
 	{
-		return (nodeA->g < nodeB->g);
+		return (nodeA->h < nodeB->h);
 	}
 }
 
-void Dijkastra::InsertSortedElement(AI::GridBasedGraph::Node* node)
-{
-	if (mOpenList.empty())
-	{
-		mOpenList.push_back(node);
-		return;
-	}
-
-	for (std::list<GridBasedGraph::Node*>::iterator it = mOpenList.begin(); it != mOpenList.end(); ++it)
-	{
-		if ((*it)->g <= node->g)
-		{
-			mOpenList.insert(it, node);
-			break;
-		}
-	}
-}
-
-bool Dijkastra::Run(GridBasedGraph& graph, int startX, int startY, int endX, int endY, GetCost getCost)
+bool AI::ASTAR::Run(GridBasedGraph& graph, int startX, int startY, int endX, int endY, GetCost getCost)
 {
 	// Reset everything
 	graph.ResetSearchParams();
@@ -73,11 +55,12 @@ bool Dijkastra::Run(GridBasedGraph& graph, int startX, int startY, int endX, int
 					neighbour->parent = node;
 					neighbour->inOpenList = true;
 					neighbour->g = node->g + getCost(node, neighbour);
+					neighbour->h = HeuristicCalculation(neighbour, endX, endY) + neighbour->g;
 					//InsertSortedElement(neighbour);
 					mOpenList.push_back(neighbour);
 					mOpenList.sort(List_Sorter);
 				}
-				
+
 				else if (!neighbour->inClosedList)
 				{
 					if (node->g + getCost(node, neighbour) < neighbour->g)
@@ -85,7 +68,7 @@ bool Dijkastra::Run(GridBasedGraph& graph, int startX, int startY, int endX, int
 						neighbour->parent = node;
 					}
 				}
-				
+
 			}
 		}
 
@@ -97,4 +80,27 @@ bool Dijkastra::Run(GridBasedGraph& graph, int startX, int startY, int endX, int
 	return found;
 }
 
+void AI::ASTAR::InsertSortedElement(AI::GridBasedGraph::Node* node)
+{
+	if (mOpenList.empty())
+	{
+		mOpenList.push_back(node);
+		return;
+	}
 
+	for (std::list<GridBasedGraph::Node*>::iterator it = mOpenList.begin(); it != mOpenList.end(); ++it)
+	{
+		if ((*it)->g <= node->g)
+		{
+			mOpenList.insert(it, node);
+			break;
+		}
+	}
+}
+
+float AI::ASTAR::HeuristicCalculation(GridBasedGraph::Node* node, int endX, int endY)
+{
+	auto dx = abs(node->row - endX);
+	auto dy = abs(node->column - endY);
+	return 1 * (dx + dy) + (5 - 2 * 1) * std::min(dx, dy);
+}

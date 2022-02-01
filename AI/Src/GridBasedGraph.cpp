@@ -34,7 +34,7 @@ void GridBasedGraph::ResetSearchParams()
 		node.parent = nullptr;
 		node.inOpenList = false;
 		node.inClosedList = false;
-		float g = 0.0f;
+		node.g = 0.0f;
 		float h = 0.0f;
 	}
 }

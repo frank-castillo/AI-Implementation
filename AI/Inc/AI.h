@@ -7,3 +7,4 @@
 #include "BFS.h"
 #include "DFS.h"
 #include "Dijkastra.h"
+#include "AStar.h"

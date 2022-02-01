@@ -178,7 +178,19 @@ void TileMap::Render()
 			}
 		}
 	}
-	// TODO - Use X::DrawScreenLine to visualize the graph
+	
+	for (auto& node : mClosedList)
+	{
+		auto parent = node->parent;
+		if (parent != nullptr)
+		{
+			const auto a = GetPixelPosition(node->column, node->row);
+			const auto b = GetPixelPosition(parent->column, parent->row);
+			const auto offset = X::Math::Vector2(1.0f, 0.0f);
+			X::DrawScreenLine(a, b, X::Colors::Yellow);
+			X::DrawScreenLine(a +offset, b + offset, X::Colors::Yellow);
+		}
+	}
 }
 
 void TileMap::Unload()
@@ -210,6 +222,17 @@ int TileMap::GetIndex(int column, int row) const
 	return column + (row * mColumns);
 }
 
+float TileMap::GetCost(const AI::GridBasedGraph::Node* nodeA, const AI::GridBasedGraph::Node* nodeB) const
+{
+	const int fromTileIndex = GetIndex(nodeA->column, nodeA->row);
+	const int toTileIndex = GetIndex(nodeB->column, nodeB->row);
+	const int tileType = mMap[toTileIndex];
+	if (tileType == 1)
+		return 5.0f;
+	else
+		return 1.0f;
+}
+
 std::vector<X::Math::Vector2> TileMap::FindPathBFS(int startX, int startY, int endX, int endY)
 {
 	std::vector<X::Math::Vector2> path;
@@ -218,6 +241,85 @@ std::vector<X::Math::Vector2> TileMap::FindPathBFS(int startX, int startY, int e
 	if (bfs.Run(mGraph, startX, startY, endX, endY))
 	{
 		const auto& closedList = bfs.GetClosedList();
+		auto node = closedList.back();
+		while (node != nullptr)
+		{
+			path.push_back(GetPixelPosition(node->column, node->row));
+			node = node->parent;
+		}
+		std::reverse(path.begin(), path.end());
+
+		// Cache the closed list for visualization
+		mClosedList = closedList;
+	}
+
+	return path;
+}
+
+std::vector<X::Math::Vector2> TileMap::FindPathDFS(int startX, int startY, int endX, int endY)
+{
+	std::vector<X::Math::Vector2> path;
+
+	DFS dfs;
+	if (dfs.Run(mGraph, startX, startY, endX, endY))
+	{
+		const auto& closedList = dfs.GetClosedList();
+		auto node = closedList.back();
+		while (node != nullptr)
+		{
+			path.push_back(GetPixelPosition(node->column, node->row));
+			node = node->parent;
+		}
+		std::reverse(path.begin(), path.end());
+
+		// Cache the closed list for visualization
+		mClosedList = closedList;
+	}
+
+	return path;
+}
+
+std::vector<X::Math::Vector2> TileMap::FindPathDijkastra(int startX, int startY, int endX, int endY)
+{
+	std::vector<X::Math::Vector2> path;
+
+	auto GetCostWrapper = [&](auto nodeA, auto nodeB)
+	{
+		return GetCost(nodeA, nodeB); // Capture ourselves so we can call the cost function to send it as an argument
+	};
+
+	Dijkastra djk;
+	if (djk.Run(mGraph, startX, startY, endX, endY, GetCostWrapper))
+	{
+		const auto& closedList = djk.GetClosedList();
+		auto node = closedList.back();
+		while (node != nullptr)
+		{
+			path.push_back(GetPixelPosition(node->column, node->row));
+			node = node->parent;
+		}
+		std::reverse(path.begin(), path.end());
+
+		// Cache the closed list for visualization
+		mClosedList = closedList;
+	}
+
+	return path;
+}
+
+std::vector<X::Math::Vector2> TileMap::FindPathAStar(int startX, int startY, int endX, int endY)
+{
+	std::vector<X::Math::Vector2> path;
+
+	auto GetCostWrapper = [&](auto nodeA, auto nodeB)
+	{
+		return GetCost(nodeA, nodeB); // Capture ourselves so we can call the cost function to send it as an argument
+	};
+
+	ASTAR astar;
+	if (astar.Run(mGraph, startX, startY, endX, endY, GetCostWrapper))
+	{
+		const auto& closedList = astar.GetClosedList();
 		auto node = closedList.back();
 		while (node != nullptr)
 		{
