@@ -31,6 +31,7 @@ private:
 	void LoadTextures(const char* fileName);
 	int GetIndex(int column, int row) const;
 	float GetCost(const AI::GridBasedGraph::Node* nodeA, const AI::GridBasedGraph::Node* nodeB) const;
+	float GetHeuristic(const AI::GridBasedGraph::Node* nodeA, const int endX, const int endY) const;
 
 	AI::GridBasedGraph mGraph;
 	AI::NodeList mClosedList;

@@ -7,11 +7,11 @@ namespace
 {
 	bool List_Sorter(const GridBasedGraph::Node* nodeA, const GridBasedGraph::Node* nodeB)
 	{
-		return (nodeA->h < nodeB->h);
+		return (nodeA->g + nodeA->h < nodeB->g + nodeB->h);
 	}
 }
 
-bool AI::ASTAR::Run(GridBasedGraph& graph, int startX, int startY, int endX, int endY, GetCost getCost)
+bool ASTAR::Run(GridBasedGraph& graph, int startX, int startY, int endX, int endY, GetCost getCost, GetHeuristic getHeuristic)
 {
 	// Reset everything
 	graph.ResetSearchParams();
@@ -52,12 +52,12 @@ bool AI::ASTAR::Run(GridBasedGraph& graph, int startX, int startY, int endX, int
 				if (!neighbour->inOpenList)
 				{
 					// Add expanded node to open list, set parent
-					neighbour->parent = node;
-					neighbour->inOpenList = true;
-					neighbour->g = node->g + getCost(node, neighbour);
-					neighbour->h = HeuristicCalculation(neighbour, endX, endY) + neighbour->g;
-					//InsertSortedElement(neighbour);
 					mOpenList.push_back(neighbour);
+					neighbour->g = node->g + getCost(node, neighbour);
+					neighbour->h = getHeuristic(neighbour, endX, endY);
+					neighbour->inOpenList = true;
+					neighbour->parent = node;
+					//InsertSortedElement(neighbour);
 					mOpenList.sort(List_Sorter);
 				}
 
@@ -66,6 +66,8 @@ bool AI::ASTAR::Run(GridBasedGraph& graph, int startX, int startY, int endX, int
 					if (node->g + getCost(node, neighbour) < neighbour->g)
 					{
 						neighbour->parent = node;
+						neighbour->g = getCost(node, neighbour);
+						mOpenList.sort(List_Sorter);
 					}
 				}
 
@@ -80,27 +82,22 @@ bool AI::ASTAR::Run(GridBasedGraph& graph, int startX, int startY, int endX, int
 	return found;
 }
 
-void AI::ASTAR::InsertSortedElement(AI::GridBasedGraph::Node* node)
+void ASTAR::InsertSortedElement(AI::GridBasedGraph::Node* node)
 {
 	if (mOpenList.empty())
 	{
-		mOpenList.push_back(node);
+		mOpenList.push_front(node);
 		return;
 	}
 
-	for (std::list<GridBasedGraph::Node*>::iterator it = mOpenList.begin(); it != mOpenList.end(); ++it)
+	for (std::list<AI::GridBasedGraph::Node*>::iterator it = mOpenList.begin(); it != mOpenList.end(); ++it)
 	{
-		if ((*it)->g <= node->g)
+		auto currentNode = *it;
+
+		if (node->g + node->h < currentNode->g + currentNode->h)
 		{
 			mOpenList.insert(it, node);
-			break;
+			return;
 		}
 	}
-}
-
-float AI::ASTAR::HeuristicCalculation(GridBasedGraph::Node* node, int endX, int endY)
-{
-	auto dx = abs(node->row - endX);
-	auto dy = abs(node->column - endY);
-	return 1 * (dx + dy) + (5 - 2 * 1) * std::min(dx, dy);
 }

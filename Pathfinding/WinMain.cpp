@@ -69,6 +69,8 @@ bool GameLoop(float deltaTime)
 		const auto offset = X::Math::Vector2(1.0f, 0.0f);
 		X::DrawScreenLine(a, b, X::Colors::Red);
 		X::DrawScreenLine(a + offset, b + offset, X::Colors::Red);
+		X::DrawScreenCircle(a, 10,X::Colors::Blue);
+		X::DrawScreenCircle(a +offset, 10,X::Colors::Blue);
 	}
 	DrawLocation(startX, startY,X::Colors::Red);
 	DrawLocation(endX, endY,X::Colors::Yellow);

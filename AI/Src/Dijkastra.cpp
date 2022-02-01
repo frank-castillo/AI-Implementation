@@ -11,24 +11,6 @@ namespace
 	}
 }
 
-void Dijkastra::InsertSortedElement(AI::GridBasedGraph::Node* node)
-{
-	if (mOpenList.empty())
-	{
-		mOpenList.push_back(node);
-		return;
-	}
-
-	for (std::list<GridBasedGraph::Node*>::iterator it = mOpenList.begin(); it != mOpenList.end(); ++it)
-	{
-		if ((*it)->g <= node->g)
-		{
-			mOpenList.insert(it, node);
-			break;
-		}
-	}
-}
-
 bool Dijkastra::Run(GridBasedGraph& graph, int startX, int startY, int endX, int endY, GetCost getCost)
 {
 	// Reset everything
@@ -70,10 +52,10 @@ bool Dijkastra::Run(GridBasedGraph& graph, int startX, int startY, int endX, int
 				if (!neighbour->inOpenList)
 				{
 					// Add expanded node to open list, set parent
-					neighbour->parent = node;
-					neighbour->inOpenList = true;
 					neighbour->g = node->g + getCost(node, neighbour);
 					//InsertSortedElement(neighbour);
+					neighbour->inOpenList = true;
+					neighbour->parent = node;
 					mOpenList.push_back(neighbour);
 					mOpenList.sort(List_Sorter);
 				}
@@ -83,6 +65,8 @@ bool Dijkastra::Run(GridBasedGraph& graph, int startX, int startY, int endX, int
 					if (node->g + getCost(node, neighbour) < neighbour->g)
 					{
 						neighbour->parent = node;
+						neighbour->g = getCost(node, neighbour);
+						mOpenList.sort(List_Sorter);
 					}
 				}
 				

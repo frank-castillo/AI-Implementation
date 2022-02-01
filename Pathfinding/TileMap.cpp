@@ -233,6 +233,13 @@ float TileMap::GetCost(const AI::GridBasedGraph::Node* nodeA, const AI::GridBase
 		return 1.0f;
 }
 
+float TileMap::GetHeuristic(const AI::GridBasedGraph::Node* nodeA, const int endX, const int endY) const
+{
+	auto dx = abs(nodeA->row - endX);
+	auto dy = abs(nodeA->column - endY);
+	return 1 * std::sqrt(dx * dx + dy * dy);
+}
+
 std::vector<X::Math::Vector2> TileMap::FindPathBFS(int startX, int startY, int endX, int endY)
 {
 	std::vector<X::Math::Vector2> path;
@@ -316,8 +323,13 @@ std::vector<X::Math::Vector2> TileMap::FindPathAStar(int startX, int startY, int
 		return GetCost(nodeA, nodeB); // Capture ourselves so we can call the cost function to send it as an argument
 	};
 
+	auto GetHeuristicWrapper = [&](auto nodeA, int endX, int endY)
+	{
+		return GetHeuristic(nodeA, endX, endY); // Capture ourselves so we can call the cost function to send it as an argument
+	};
+
 	ASTAR astar;
-	if (astar.Run(mGraph, startX, startY, endX, endY, GetCostWrapper))
+	if (astar.Run(mGraph, startX, startY, endX, endY, GetCostWrapper, GetHeuristicWrapper))
 	{
 		const auto& closedList = astar.GetClosedList();
 		auto node = closedList.back();
