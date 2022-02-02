@@ -242,7 +242,7 @@ float TileMap::GetHeuristic(const AI::GridBasedGraph::Node* nodeA, const int end
 {
 	auto dx = abs(nodeA->column - endX);
 	auto dy = abs(nodeA->row - endY);
-	return 1 * std::sqrt(dx * dx + dy * dy);
+	return static_cast<float>(1 * std::sqrt(dx * dx + dy * dy));
 }
 
 std::vector<X::Math::Vector2> TileMap::FindPathBFS(int startX, int startY, int endX, int endY)
