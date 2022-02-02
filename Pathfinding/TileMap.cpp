@@ -235,8 +235,8 @@ float TileMap::GetCost(const AI::GridBasedGraph::Node* nodeA, const AI::GridBase
 
 float TileMap::GetHeuristic(const AI::GridBasedGraph::Node* nodeA, const int endX, const int endY) const
 {
-	auto dx = abs(nodeA->row - endX);
-	auto dy = abs(nodeA->column - endY);
+	auto dx = abs(nodeA->column - endX);
+	auto dy = abs(nodeA->row - endY);
 	return 1 * std::sqrt(dx * dx + dy * dy);
 }
 

@@ -52,9 +52,9 @@ bool ASTAR::Run(GridBasedGraph& graph, int startX, int startY, int endX, int end
 				if (!neighbour->inOpenList)
 				{
 					// Add expanded node to open list, set parent
-					mOpenList.push_back(neighbour);
 					neighbour->g = node->g + getCost(node, neighbour);
 					neighbour->h = getHeuristic(neighbour, endX, endY);
+					mOpenList.push_front(neighbour);
 					neighbour->inOpenList = true;
 					neighbour->parent = node;
 					//InsertSortedElement(neighbour);

@@ -27,26 +27,53 @@ void GameInit()
 bool GameLoop(float deltaTime)
 {
 	TileMap::Get().Render();
+	int columns = TileMap::Get().GetColumns();
+	int rows = TileMap::Get().GetRows();
+
 
 	// Start Point Control
-	if (X::IsKeyPressed(X::Keys::W))
+	if (X::IsKeyPressed(X::Keys::W) && startY > 0)
+	{
 		startY -= 1;
-	if (X::IsKeyPressed(X::Keys::S))
+	}
+
+	if (X::IsKeyPressed(X::Keys::S) && startY < rows - 1)
+	{
 		startY += 1;
-	if (X::IsKeyPressed(X::Keys::A))
+	}
+	if (X::IsKeyPressed(X::Keys::A) && startX > 0)
+	{
 		startX -= 1;
-	if (X::IsKeyPressed(X::Keys::D))
+	}
+
+	if (X::IsKeyPressed(X::Keys::D) && startX < columns - 1)
+	{
 		startX += 1;
+	}
+
 
 	// End Point Control
-	if (X::IsKeyPressed(X::Keys::UP))
+	if (X::IsKeyPressed(X::Keys::UP) && endY > 0)
+	{
 		endY -= 1;
-	if (X::IsKeyPressed(X::Keys::DOWN))
+	}
+
+	if (X::IsKeyPressed(X::Keys::DOWN) && endY < rows - 1)
+	{
 		endY += 1;
-	if (X::IsKeyPressed(X::Keys::LEFT))
+	}
+
+	if (X::IsKeyPressed(X::Keys::LEFT) && endX > 0)
+	{
 		endX -= 1;
-	if (X::IsKeyPressed(X::Keys::RIGHT))
+		
+	}
+
+	if (X::IsKeyPressed(X::Keys::RIGHT) && endX < columns - 1)
+	{
 		endX += 1;
+	}
+
 
 	if (X::IsKeyPressed(X::Keys::ONE) || method == PathMethod::BFS)
 		path = TileMap::Get().FindPathBFS(startX, startY, endX, endY),
@@ -69,11 +96,11 @@ bool GameLoop(float deltaTime)
 		const auto offset = X::Math::Vector2(1.0f, 0.0f);
 		X::DrawScreenLine(a, b, X::Colors::Red);
 		X::DrawScreenLine(a + offset, b + offset, X::Colors::Red);
-		X::DrawScreenCircle(a, 10,X::Colors::Blue);
-		X::DrawScreenCircle(a +offset, 10,X::Colors::Blue);
+		X::DrawScreenCircle(a, 10, X::Colors::Blue);
+		X::DrawScreenCircle(a + offset, 10, X::Colors::Blue);
 	}
-	DrawLocation(startX, startY,X::Colors::Red);
-	DrawLocation(endX, endY,X::Colors::Yellow);
+	DrawLocation(startX, startY, X::Colors::Red);
+	DrawLocation(endX, endY, X::Colors::Yellow);
 
 	const bool quit = X::IsKeyPressed(X::Keys::ESCAPE);
 	return quit;

@@ -24,6 +24,8 @@ public:
 	std::vector<X::Math::Vector2> FindPathDijkastra(int startX, int startY, int endX, int endY);
 	std::vector<X::Math::Vector2> FindPathAStar(int startX, int startY, int endX, int endY);
 
+	const int GetRows() const { return mRows; }
+	const int GetColumns() const { return mColumns; }
 	X::Math::Vector2 GetPixelPosition(int x, int y) const;
 
 private:
