@@ -45,7 +45,7 @@ bool ASTAR::Run(GridBasedGraph& graph, int startX, int startY, int endX, int end
 			for (auto neighbour : node->neighbours)
 			{
 				// If expanded node isn't in open nor closed lists
-				if (neighbour == nullptr)
+				if (neighbour == nullptr /*|| neighbour->inClosedList*/)
 					continue;
 
 				// I have not encountered this node
@@ -55,9 +55,9 @@ bool ASTAR::Run(GridBasedGraph& graph, int startX, int startY, int endX, int end
 					neighbour->g = node->g + getCost(node, neighbour);
 					neighbour->h = getHeuristic(neighbour, endX, endY);
 					mOpenList.push_front(neighbour);
+					//InsertSortedElement(neighbour);
 					neighbour->inOpenList = true;
 					neighbour->parent = node;
-					//InsertSortedElement(neighbour);
 					mOpenList.sort(List_Sorter);
 				}
 
@@ -66,14 +66,12 @@ bool ASTAR::Run(GridBasedGraph& graph, int startX, int startY, int endX, int end
 					if (node->g + getCost(node, neighbour) < neighbour->g)
 					{
 						neighbour->parent = node;
-						neighbour->g = getCost(node, neighbour);
+						neighbour->g = node->g + getCost(node, neighbour);
 						mOpenList.sort(List_Sorter);
 					}
 				}
-
 			}
 		}
-
 		// Add node N to closed list
 		node->inClosedList = true;
 		mClosedList.push_back(node);

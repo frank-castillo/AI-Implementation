@@ -15,6 +15,8 @@ namespace AI
 		const NodeList& GetClosedList() const { return mClosedList; }
 
 	private:
+		void InsertSortedElement(GridBasedGraph::Node* node);
+
 		NodeList mOpenList;
 		NodeList mClosedList;
 	};

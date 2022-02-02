@@ -65,11 +65,10 @@ bool Dijkastra::Run(GridBasedGraph& graph, int startX, int startY, int endX, int
 					if (node->g + getCost(node, neighbour) < neighbour->g)
 					{
 						neighbour->parent = node;
-						neighbour->g = getCost(node, neighbour);
+						neighbour->g = node->g + getCost(node, neighbour);
 						mOpenList.sort(List_Sorter);
 					}
 				}
-				
 			}
 		}
 
@@ -79,6 +78,26 @@ bool Dijkastra::Run(GridBasedGraph& graph, int startX, int startY, int endX, int
 	}
 
 	return found;
+}
+
+void Dijkastra::InsertSortedElement(GridBasedGraph::Node* node)
+{
+	if (mOpenList.empty())
+	{
+		mOpenList.push_front(node);
+		return;
+	}
+
+	for (std::list<AI::GridBasedGraph::Node*>::iterator it = mOpenList.begin(); it != mOpenList.end(); ++it)
+	{
+		auto currentNode = *it;
+
+		if (node->g + node->h < currentNode->g + currentNode->h)
+		{
+			mOpenList.insert(it, node);
+			return;
+		}
+	}
 }
 
 

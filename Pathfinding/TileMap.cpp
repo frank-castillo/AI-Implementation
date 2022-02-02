@@ -227,10 +227,15 @@ float TileMap::GetCost(const AI::GridBasedGraph::Node* nodeA, const AI::GridBase
 	const int fromTileIndex = GetIndex(nodeA->column, nodeA->row);
 	const int toTileIndex = GetIndex(nodeB->column, nodeB->row);
 	const int tileType = mMap[toTileIndex];
-	if (tileType == 1)
+	const bool isDiagonal = (nodeA->column != nodeB->column) && (nodeA->row != nodeB->row);
+
+	/*if (tileType == 1)
 		return 5.0f;
 	else
-		return 1.0f;
+		return 1.0f;*/
+
+	const float cost = ((tileType == 1) ? 5.0f : 1.0f) * (isDiagonal ? 1.414f : 1.0f);
+	return cost;
 }
 
 float TileMap::GetHeuristic(const AI::GridBasedGraph::Node* nodeA, const int endX, const int endY) const
