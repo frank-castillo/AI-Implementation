@@ -13,6 +13,12 @@
     <Filter Include="Src\Pathing">
       <UniqueIdentifier>{28bae41a-3f5c-4e16-bbaf-9557028ac65c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Inc\World">
+      <UniqueIdentifier>{098941fb-c688-4725-8231-8cd4116baf8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\World">
+      <UniqueIdentifier>{97644166-8a11-4b69-900e-697134a417d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\AI.h">
@@ -39,6 +45,9 @@
     <ClInclude Include="Inc\AStar.h">
       <Filter>Inc\Pathing</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\Entity.h">
+      <Filter>Inc\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -58,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="Src\AStar.cpp">
       <Filter>Src\Pathing</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Entity.cpp">
+      <Filter>Src\World</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
