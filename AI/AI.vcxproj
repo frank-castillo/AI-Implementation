@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Inc\AI.h" />
+    <ClInclude Include="Inc\AIWorld.h" />
     <ClInclude Include="Inc\AStar.h" />
     <ClInclude Include="Inc\BFS.h" />
     <ClInclude Include="Inc\Common.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Src\Precompiled.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\AIWorld.cpp" />
     <ClCompile Include="Src\AStar.cpp" />
     <ClCompile Include="Src\BFS.cpp" />
     <ClCompile Include="Src\DFS.cpp" />

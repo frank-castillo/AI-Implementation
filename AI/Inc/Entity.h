@@ -3,19 +3,42 @@
 namespace AI
 {
 	class AIWorld;
+	class Entity;
+
+	using EntityPtrs = std::vector<Entity*>;
 
 	class Entity
 	{
 	public:
-		AIWorld& world;
+		// This are all Special Member functions
+		Entity(AIWorld& world, uint32_t typeID);
+		virtual ~Entity();
+
+		Entity(const Entity&) = delete;
+		Entity& operator=(const Entity&) = delete;
+		Entity(Entity&&) = delete;
+		Entity& operator=(Entity&) = delete;
+		/// <summary>
+		/// Special member functions are functions that could be created by the compiler
+		/// if certain conditions are met!
+		/// delete tells the compiler to not create those functions and limit
+		/// our creation and destruction of Entities
+		/// </summary>
+
+		AIWorld& world; // This can only be initialized, not assigned!
 		X::Math::Vector2 position = X::Math::Vector2::Zero();
 		X::Math::Vector2 heading = X::Math::Vector2::YAxis();
 		float radius = 1.0f;
 
+		uint32_t GetTypeID() const { return static_cast<uint32_t>(mUniqueID >> 32); }
+		uint64_t GetUniqueID() const { return mUniqueID; }
+
 	private:
-		uint64_t mUniqueID = 0;
+		const uint64_t mUniqueID = 0; // Only constructor sets it
 	};
 }
+
+// If you do not have an AIWorld, you can't create an Entity
 
 // To fix circular inclusion, you have to ask yourself
 // Does one file really needs to know about everything the other file?
