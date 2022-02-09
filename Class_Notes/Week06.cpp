@@ -68,7 +68,21 @@ void Test()
 
 class Elephant
 {
+public:
+	void Dance() { /*888*/ };
+
+	// This will be our non const interface
+	int GetHP() { return hp; }
+	float GetWeight() { return weight; }
+
+	// This will be our const interface -> when we use const <type>& var;
+	int GetHP() const { return hp; }
+	float GetWeight() const { return weight; }
+
+private:
 	char lots[10000000];
+	int hp;
+	float weight;
 };
 
 void Print(int i);
@@ -76,7 +90,10 @@ void Print(const int& i);
 void Print(Elephant e);
 void Print(Elephant& e);
 void Print(Elephant* e);
-void Print(const Elephant& e);
+void Print(const Elephant& e)
+{
+	printf("hp = %d, w = %f", e.GetHP(), e.GetWeight());
+}
 
 // Both pointer and refrence are adresses to memory and they are seen as the same
 // inside our memory
@@ -105,7 +122,14 @@ void Print(const Elephant& e);
 // As we can see, the top section is not compatible in sizze with the bottom
 // section. That is why we use dereference when using * (pointer)
 
-
 // Callstack is all the memory your functions need
 // Data column and adress columns are what make up the callstack
 // Bottom of stack is higher adress and the top is lower address
+
+// WHEN YOU WITE CODE, GIVE AS LITTLE CONTROL TO THEM AS POSSIBLE!
+// JUST ALLOW THEM TO MAKE THEIR WORK AND PROTECT YOUR CODE!
+
+// If what you are passing is a primitive type, just pass by value.
+// Otherwise, pass as const <type>&
+// If we want to use this safe technique, we must add const to our functions that are const
+// This way the compiler will understand which functions can be used when the object is const
