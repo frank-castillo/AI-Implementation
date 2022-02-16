@@ -7,7 +7,7 @@ namespace AI
 	class AIWorld
 	{
 	public:
-		uint32_t GetNextID()
+		uint32_t GetNextID()const
 		{
 			XASSERT(mNextID < UINT32_MAX, "AIWorld -- Run out of IDs!");
 			return mNextID++;
@@ -16,9 +16,10 @@ namespace AI
 		void RegisterEntity(Entity* entity);
 		void UnregisterEntity(Entity* entity);
 
-		
+
 	private:
 		EntityPtrs mEntities;
-		uint32_t mNextID = 0;
+		mutable uint32_t mNextID = 0;
 	};
 }
+
