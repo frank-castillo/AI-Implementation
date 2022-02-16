@@ -16,6 +16,7 @@ namespace AI
 		void RegisterEntity(Entity* entity);
 		void UnregisterEntity(Entity* entity);
 
+		Entity* GetClosest(const X::Math::Vector2& position, uint32_t typeID) const;
 
 	private:
 		EntityPtrs mEntities;

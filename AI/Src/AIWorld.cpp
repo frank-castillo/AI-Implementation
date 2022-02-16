@@ -21,3 +21,25 @@ void AI::AIWorld::UnregisterEntity(Entity* entity)
 		mEntities.pop_back();
 	}
 }
+
+Entity* AIWorld::GetClosest(const X::Math::Vector2& position, uint32_t typeID) const
+{
+	Entity* closestEntity = nullptr;
+	float closestDistanceSqr = FLT_MAX;
+
+	for (auto entity : mEntities)
+	{
+		if (entity->GetTypeID() == typeID)
+		{
+			const float distSqr = X::Math::DistanceSqr(position, entity->position);
+			if (distSqr < closestDistanceSqr)
+			{
+				closestEntity = entity;
+				closestDistanceSqr = distSqr;
+			}
+		}
+	}
+
+	return closestEntity;
+}
+
