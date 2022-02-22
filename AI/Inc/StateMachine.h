@@ -25,7 +25,7 @@ namespace AI
 		}*/
 
 		template<class NewStateType>
-		void AddState(StateType* newState)
+		void AddState()
 		{
 			static_assert(std::is_base_of_v<StateType, NewStateType>, "StateMachine -- can only add state for AgentType");
 			mStates.push_back(std::make_unique<NewStateType>());

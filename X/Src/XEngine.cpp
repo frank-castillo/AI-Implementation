@@ -599,6 +599,11 @@ void X::DrawScreenText(const char* str, float x, float y, float size, const Colo
 	myTextCommands.emplace_back(std::move(wstr), size, x, y, ToColor(color));
 }
 
+void X::DrawScreenText(const char* str, const Math::Vector2& pos, float size, const Color& color)
+{
+	DrawScreenText(str, pos.x, pos.y, size, color);
+}
+
 float X::GetTextWidth(const char* str, float size)
 {
 	XASSERT(initialized, "[XEngine] Engine not started.");

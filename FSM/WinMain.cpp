@@ -1,6 +1,8 @@
 #include <AI.h>
 #include <XEngine.h>
 
+AI::AIWorld aiWorld;
+
 void GameInit()
 {
 	

@@ -77,6 +77,7 @@ namespace X
 	void DrawScreenDiamond(const Math::Vector2& center, float size, const Color& color);
 	void DrawScreenDiamond(float x, float y, float size, const Color& color);
 	void DrawScreenGrid(uint32_t cellSize, const Color& color);
+	void DrawScreenText(const char* str, const Math::Vector2& pos, float size, const Color& color);
 	void DrawScreenText(const char* str, float x, float y, float size, const Color& color);
 	float GetTextWidth(const char* str, float size);
 
