@@ -2,6 +2,10 @@
 
 #include "Common.h"
 
+// Steering Headers
+#include "SteeringBehaviour.h"
+#include "SteeringModule.h"
+
 // FSM Headers
 #include "State.h"
 #include "StateMachine.h"

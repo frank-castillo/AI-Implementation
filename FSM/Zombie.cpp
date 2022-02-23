@@ -13,7 +13,7 @@ void Zombie::Load()
 	mStateMachine = std::make_unique<AI::StateMachine<Zombie>>(*this);
 	mStateMachine->AddState<ZombieIdle>();
 	mStateMachine->AddState<ZombieWander>();
-	mStateMachine->ChangeState(Idle);
+	mStateMachine->ChangeState(Wander);
 
 	mTextureID = X::LoadTexture("zombie_idle.png");
 }
