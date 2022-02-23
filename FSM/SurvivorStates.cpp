@@ -21,7 +21,7 @@ void SurvivorIdle::Update(Survivor& agent, float deltaTime)
 	AI::Entity* closestZombie = agent.world.GetClosest(agent.position, Types::ZombieID);
 	if (closestZombie != nullptr)
 	{
-		agent.ChangeState(Survivor::Run);
+		//agent.ChangeState(Survivor::Run);
 	}
 
 	// Transition
@@ -79,10 +79,38 @@ void SurvivorWander::Exit(Survivor& agent)
 
 void SurvivorRun::Enter(Survivor& agent)
 {
+	AI::Entity* closestZombie = agent.world.GetClosest(agent.position, Types::ZombieID);
+	if (closestZombie != nullptr)
+	{
+		mClosestZombie = static_cast<Zombie*>(closestZombie);
+		agent.destination = -closestZombie->position;
+	}
+	else
+	{
+		closestZombie = nullptr;
+	}
 }
 
 void SurvivorRun::Update(Survivor& agent, float deltaTime)
 {
+	const auto agentToDest = agent.destination - agent.position;
+	const float distance = X::Math::Magnitude(agentToDest);
+
+	if (distance < 10.0f)
+	{
+		// Task
+		const auto direction = agentToDest / distance;
+		agent.velocity = direction * runSpeed;
+		agent.position += agent.velocity * deltaTime;
+	}
+	else
+	{
+		// Transition
+		agent.ChangeState(Survivor::Idle);
+	}
+
+	X::DrawScreenDiamond(agent.destination, 20.0f, X::Colors::Cyan);
+	X::DrawScreenText("Eat", agent.position + debugTextOffset, 16.0f, X::Colors::Yellow);
 }
 
 void SurvivorRun::Exit(Survivor& agent)

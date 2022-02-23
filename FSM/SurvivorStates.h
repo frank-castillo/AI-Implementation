@@ -27,5 +27,7 @@ class SurvivorRun : public AI::State<Survivor>
 	void Enter(Survivor& agent) override;
 	void Update(Survivor& agent, float deltaTime) override;
 	void Exit(Survivor& agent) override;
+private:
+	Zombie* mClosestZombie;
 };
 
