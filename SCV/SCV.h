@@ -20,6 +20,7 @@ public:
 	void SetFlee(bool active) { mFleeBehaviour->SetActive(active); }
 	void SetArrive(bool active) { mArriveBehaviour->SetActive(active); }
 	void SetPursuit(bool active) { mPursuitBehaviour->SetActive(active); }
+	void SetWander(bool active) { mWanderBehaviour->SetActive(active); }
 
 private:
 	std::unique_ptr<AI::SteeringModule> mSteeringModule;
@@ -29,5 +30,6 @@ private:
 	AI::FleeBehaviour* mFleeBehaviour = nullptr;
 	AI::ArriveBehaviour* mArriveBehaviour = nullptr;
 	AI::PursuitBehaviour* mPursuitBehaviour = nullptr;
+	AI::WanderBehaviour* mWanderBehaviour = nullptr;
 };
 

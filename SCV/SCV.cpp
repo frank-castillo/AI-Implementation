@@ -2,6 +2,13 @@
 
 #include "TypeIDs.h"
 
+/// <summary>
+/// Extern 
+/// </summary>
+extern float wanderJitter;
+extern float wanderRadius;
+extern float wanderDistance;
+
 SCV::SCV(AI::AIWorld& world)
 	: Agent(world, Types::SCVID)
 {
@@ -14,12 +21,14 @@ void SCV::Load()
 	mFleeBehaviour = mSteeringModule->AddBehaviour<AI::FleeBehaviour>(); 
 	mArriveBehaviour = mSteeringModule->AddBehaviour<AI::ArriveBehaviour>(); 
 	mPursuitBehaviour = mSteeringModule->AddBehaviour<AI::PursuitBehaviour>(); 
+	mWanderBehaviour = mSteeringModule->AddBehaviour<AI::WanderBehaviour>(); 
 
 	mSeekBehaviour->SetActive(true);
 	mFleeBehaviour->SetActive(false);
 	mFleeBehaviour->SetPanicDistance(100.f);
 	mArriveBehaviour->SetActive(false);
 	mPursuitBehaviour->SetActive(false);
+	mWanderBehaviour->SetActive(false);
 
 	maxSpeed = 250.0f;
 
@@ -37,6 +46,11 @@ void SCV::Unload()
 
 void SCV::Update(float deltaTime)
 {
+	if (mWanderBehaviour->IsActive())
+	{
+		mWanderBehaviour->Setup(wanderRadius, wanderDistance, wanderJitter);
+	}
+
 	const auto force = mSteeringModule->Calculate();
 
 	const auto acceleration = force / mass;
@@ -60,9 +74,9 @@ void SCV::Update(float deltaTime)
 	if (position.x >= screenWidth)
 		position.x -= screenWidth;
 	if (position.y < 0.0f)
-		position.y -= screenHeight;
-	if (position.y >= screenHeight)
 		position.y += screenHeight;
+	if (position.y >= screenHeight)
+		position.y -= screenHeight;
 
 	// Show destination
 	X::DrawScreenCircle(destination, 5.0f, X::Colors::Red);
@@ -82,4 +96,5 @@ void SCV::ShowDebug(bool debug)
 	mFleeBehaviour->ShowDebug(debug);
 	mArriveBehaviour->ShowDebug(debug);
 	mPursuitBehaviour->ShowDebug(debug);
+	mWanderBehaviour->ShowDebug(debug);
 }

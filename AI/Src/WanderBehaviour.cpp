@@ -12,6 +12,7 @@ X::Math::Vector2 WanderBehaviour::Calculate(Agent& agent)
 
 	// Snap the new position back onto the wander circle
 	newWanderTarget = X::Math::Normalize(newWanderTarget) * mWanderRadius;
+	mLocalWanderTarget = newWanderTarget;
 
 	// Project the new position forward in front of the agent
 	newWanderTarget += X::Math::Vector2(0.0f, mWanderDistance);
@@ -32,8 +33,10 @@ X::Math::Vector2 WanderBehaviour::Calculate(Agent& agent)
 
 	if (IsDebug())
 	{
-		X::DrawScreenLine(agent.position, agent.position + desiredVelocity, X::Colors::Yellow);
-		X::DrawScreenLine(agent.position, agent.position + agent.velocity, X::Colors::Green);
+		const auto wanderCenter = X::Math::TransformCoord({ 0.0f, mWanderDistance }, worldTransform);
+		X::DrawScreenCircle(wanderCenter, mWanderRadius, X::Colors::Green);
+		X::DrawScreenDiamond(worldWanderTarget, 3.0f, X::Colors::Red);
+		X::DrawScreenLine(agent.position, worldWanderTarget, X::Colors::Yellow);
 	}
 
 	return seekForce;
