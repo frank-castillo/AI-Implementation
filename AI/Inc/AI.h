@@ -5,6 +5,10 @@
 // Steering Headers
 #include "SteeringBehaviour.h"
 #include "SteeringModule.h"
+#include "SeekBehaviour.h"
+#include "FleeBehaviour.h"
+#include "ArriveBehaviour.h"
+#include "PursuitBehaviour.h"
 
 // FSM Headers
 #include "State.h"
