@@ -60,7 +60,7 @@ void SCV::Update(float deltaTime)
 	if (position.x >= screenWidth)
 		position.x -= screenWidth;
 	if (position.y < 0.0f)
-		position.y += screenHeight;
+		position.y -= screenHeight;
 	if (position.y >= screenHeight)
 		position.y += screenHeight;
 

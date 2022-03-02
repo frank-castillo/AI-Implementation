@@ -58,7 +58,7 @@ bool GameLoop(float deltaTime)
 		scvs[1]->SetFlee(false);
 		scvs[1]->SetArrive(false);
 		scvs[1]->SetPursuit(true);
-		scvs[1]->
+		//scvs[1]->
 	}
 
 	for (auto& scv : scvs)

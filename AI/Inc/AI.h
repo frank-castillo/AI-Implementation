@@ -9,6 +9,7 @@
 #include "FleeBehaviour.h"
 #include "ArriveBehaviour.h"
 #include "PursuitBehaviour.h"
+#include "WanderBehaviour.h"
 
 // FSM Headers
 #include "State.h"

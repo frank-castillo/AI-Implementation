@@ -14,19 +14,19 @@ X::Math::Vector2 AI::ArriveBehaviour::Calculate(Agent& agent)
 
 	auto desiredVelocity = (agentToDest / distToDest) * agent.maxSpeed;
 	
-	if (distToDest < mSlowingDistance)
+	/*if (distToDest < mSlowingDistance)
 	{
 		desiredVelocity = desiredVelocity * (distToDest / mSlowingDistance) * 0.1f;
-	}
+	}*/
 
-	/*if (distToDest < mSlowingDistance)
+	if (distToDest < mSlowingDistance)
 	{
 		desiredVelocity = desiredVelocity * (distToDest / mSlowingDistance);
 	}
 	else
 	{
 		desiredVelocity = desiredVelocity;
-	}*/
+	}
 
 	const auto seekForce = desiredVelocity - agent.velocity;
 

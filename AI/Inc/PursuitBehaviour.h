@@ -8,9 +8,5 @@ namespace AI
 	{
 	public:
 		X::Math::Vector2 Calculate(Agent& agent) override;
-		void SetTarget(const Agent* agent) { mTarget = agent; }
-
-	private:
-		const Agent* mTarget;
 	};
 }

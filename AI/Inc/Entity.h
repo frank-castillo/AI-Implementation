@@ -30,6 +30,8 @@ namespace AI
 		X::Math::Vector2 heading = X::Math::Vector2::YAxis();
 		float radius = 1.0f;
 
+		X::Math::Matrix3 GetWorldTransform() const;
+
 		uint32_t GetTypeID() const { return static_cast<uint32_t>(mUniqueID >> 32); }
 		uint64_t GetUniqueID() const { return mUniqueID; }
 

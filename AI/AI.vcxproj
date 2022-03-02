@@ -177,6 +177,7 @@
     <ClInclude Include="Inc\StateMachine.h" />
     <ClInclude Include="Inc\SteeringBehaviour.h" />
     <ClInclude Include="Inc\SteeringModule.h" />
+    <ClInclude Include="Inc\WanderBehaviour.h" />
     <ClInclude Include="Src\Precompiled.h" />
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +200,7 @@
     <ClCompile Include="Src\PursuitBehaviour.cpp" />
     <ClCompile Include="Src\SeekBehaviour.cpp" />
     <ClCompile Include="Src\SteeringModule.cpp" />
+    <ClCompile Include="Src\WanderBehaviour.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\X\X.vcxproj">
