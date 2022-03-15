@@ -9,7 +9,7 @@ void VisualSensor::Update(AI::Agent& agent, AI::MemoryRecords& memory, float del
 	{
 		// Check if this is ammoBox
 		const uint32_t typeId = entity->GetTypeID();
-		if (typeId != FinalTypes::Ammo)
+		if (typeId != EntityTypes::AmmoType)
 			continue;
 
 		// Check view distance

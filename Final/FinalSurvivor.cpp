@@ -31,12 +31,6 @@ void Survivor::Load()
 	mVisualSensor = mPerceptionModule->AddSensor<VisualSensor>();
 	mPerceptionModule->SetMemorySpan(60.0f);
 
-	mStateMachine = std::make_unique<AI::StateMachine<Survivor>>(*this);
-	mStateMachine->AddState<SurvivorWander>();
-	mStateMachine->AddState<SurvivorRun>();
-	mStateMachine->AddState<SurvivorGetAmmo>();
-	mStateMachine->ChangeState(Wander);
-
 	mSteeringModule = std::make_unique<AI::SteeringModule>(*this);
 	mSeekBehaviour = mSteeringModule->AddBehaviour<AI::SeekBehaviour>();
 	mFleeBehaviour = mSteeringModule->AddBehaviour<AI::FleeBehaviour>();
@@ -50,6 +44,12 @@ void Survivor::Load()
 	mArriveBehaviour->SetActive(false);
 	mPursuitBehaviour->SetActive(false);
 	mWanderBehaviour->SetActive(true);
+
+	mStateMachine = std::make_unique<AI::StateMachine<Survivor>>(*this);
+	mStateMachine->AddState<SurvivorWander>();
+	mStateMachine->AddState<SurvivorRun>();
+	mStateMachine->AddState<SurvivorGetAmmo>();
+	mStateMachine->ChangeState(Wander);
 
 	maxSpeed = 250.0f;
 
@@ -99,17 +99,6 @@ void Survivor::Update(float deltaTime)
 		position.y += screenHeight;
 	if (position.y > screenHeight)
 		position.y -= screenHeight;
-
-	const auto& memoryRecords = mPerceptionModule->GetMemoryRecords();
-	for (auto& memory : memoryRecords)
-	{
-		auto pos = memory.GetProperty<X::Math::Vector2>("lastSeenPosition");
-		X::DrawScreenLine(position, pos, X::Colors::Coral);
-
-		std::string score;
-		score += std::to_string(memory.importance);
-		X::DrawScreenText(score.c_str(), pos.x, pos.y, 12.0f, X::Colors::White);
-	}
 }
 
 void Survivor::Render()

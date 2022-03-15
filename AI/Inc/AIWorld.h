@@ -34,6 +34,7 @@ namespace AI
 			XASSERT(mNextID < UINT32_MAX, "AIWorld -- Run out of IDs!");
 			return mNextID++;
 		}
+
 	private:
 		PartitionGrid<Entity> mPartitionGrid;
 		EntityPtrs mEntities;

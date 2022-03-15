@@ -27,6 +27,11 @@ namespace AI
 		void SetMemorySpan(float memorySpan) { mMemorySpan = memorySpan; }
 		const MemoryRecords& GetMemoryRecords() const { return mMemoryRecords; }
 
+		void PopMemory()
+		{
+			mMemoryRecords.pop_front();
+		}
+
 	private:
 		using Sensors = std::vector<std::unique_ptr<Sensor>>;
 
