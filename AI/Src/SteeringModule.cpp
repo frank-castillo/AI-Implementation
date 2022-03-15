@@ -16,7 +16,7 @@ X::Math::Vector2 SteeringModule::Calculate()
 	{
 		if (behaviour->IsActive())
 		{
-			totalForce += behaviour->Calculate(mAgent);
+			totalForce += behaviour->Calculate(mAgent) * behaviour->GetWeight();
 		}
 	}
 

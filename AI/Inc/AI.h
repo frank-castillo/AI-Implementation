@@ -2,15 +2,6 @@
 
 #include "Common.h"
 
-// Steering Headers
-#include "SteeringBehaviour.h"
-#include "SteeringModule.h"
-#include "SeekBehaviour.h"
-#include "FleeBehaviour.h"
-#include "ArriveBehaviour.h"
-#include "PursuitBehaviour.h"
-#include "WanderBehaviour.h"
-
 // FSM Headers
 #include "State.h"
 #include "StateMachine.h"
@@ -21,6 +12,22 @@
 #include "DFS.h"
 #include "Dijkastra.h"
 #include "AStar.h"
+
+// Perception headers
+#include "MemoryRecord.h"
+#include "PerceptionModule.h"
+#include "Sensor.h"
+
+// Steering Headers
+#include "AlignmentBehaviour.h"
+#include "ArriveBehaviour.h"
+#include "FleeBehaviour.h"
+#include "SteeringBehaviour.h"
+#include "PursuitBehaviour.h"
+#include "SeekBehaviour.h"
+#include "SeparationBehaviour.h"
+#include "SteeringModule.h"
+#include "WanderBehaviour.h"
 
 // World Headers
 #include "Agent.h"

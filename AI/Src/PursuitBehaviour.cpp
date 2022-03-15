@@ -7,19 +7,28 @@ using namespace AI;
 
 X::Math::Vector2 AI::PursuitBehaviour::Calculate(Agent& agent)
 {
-	const float lookAheadTime = 0.0f; // Make this a function
-	const auto targetPosition = agent.target->position + (agent.target->velocity * lookAheadTime);
-	if (agent.target == nullptr)
+	// Obtain data from target we are going to chase
+	const auto& target = agent.target;
+
+	// Direction from agent to target
+	const auto agentToTarget = target->position - agent.position;
+	const float distance = X::Math::Magnitude(agentToTarget);
+
+	if (distance > chaseDistance)
 	{
-		return {};
+		agent.destination = target->position + target->velocity;
+	}
+	else
+	{
+		agent.destination = target->position;
 	}
 
-	const auto agentToTarget = targetPosition - agent.position;
-	const float distToDest = X::Math::Magnitude(agentToTarget) * 3.0f;
+	const auto agentToDest = agent.destination - agent.position;
+	const float distToDest = X::Math::Magnitude(agentToTarget);
 	if (distToDest <= 0.0f)
 		return {};
 
-	const auto desiredVelocity = (agentToTarget / distToDest) * agent.maxSpeed;
+	const auto desiredVelocity = (agentToDest / distToDest) * agent.maxSpeed;
 	const auto seekForce = desiredVelocity - agent.velocity;
 
 	if (IsDebug())

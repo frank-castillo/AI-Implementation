@@ -11,10 +11,17 @@ bool showDebug = true;
 
 void SpawnSCV()
 {
+	auto& scv = scvs.emplace_back(std::make_unique<SCV>(aiWorld));
+	scv->Load();
+	scv->ShowDebug(showDebug);
+	scv->position = X::RandomVector2({ 100.0f, 100.0f }, { 1180.0f, 620.0f });
 }
 
 void KillSCV()
 {
+	auto& scv = scvs.back();
+	scv->Unload();
+	scvs.pop_back();
 }
 
 void ShowTuning()
@@ -83,7 +90,7 @@ void ShowTuning()
 				scv->SetWander(true);
 			}
 		}
-		
+
 	}
 
 	ImGui::Separator();
@@ -112,19 +119,6 @@ void ShowTuning()
 void GameInit()
 {
 	SpawnSCV();
-
-	for (int i = 0; i < 2; ++i)
-	{
-		auto& scv = scvs.emplace_back(std::make_unique<SCV>(aiWorld));
-		scv->Load();
-
-		if (i == 0)
-		{
-			scv->ShowDebug(true);
-		}
-		
-		scv->position = X::RandomVector2({ 100.0f, 100.0f }, { 1180.0f, 620.0f });
-	}
 }
 
 bool GameLoop(float deltaTime)
@@ -137,7 +131,7 @@ bool GameLoop(float deltaTime)
 		const auto mouseY = static_cast<float>(X::GetMouseScreenY());
 		for (auto& scv : scvs)
 		{
-
+			scv->destination = X::Math::Vector2(mouseX, mouseY);
 		}
 	}
 

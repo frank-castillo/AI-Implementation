@@ -4,11 +4,14 @@
 
 namespace AI
 {
-	class PursuitBehaviour : public SteeringBehaviour
+	class SeparationBehaviour : public SteeringBehaviour
 	{
 	public:
 		X::Math::Vector2 Calculate(Agent& agent) override;
+
+		void SetupMultiplier(float multiplier);
+
 	private:
-		const float chaseDistance = 200.0f;
+		float mMultiplier;
 	};
 }

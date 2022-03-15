@@ -15,6 +15,7 @@ namespace AI
 		~Agent() override = default;
 
 		const Agent* target = nullptr;
+		std::vector<const Agent*> neighbours;
 		X::Math::Vector2 velocity = X::Math::Vector2::Zero();
 		X::Math::Vector2 destination = X::Math::Vector2::Zero();
 		float maxSpeed = 100.0f;
