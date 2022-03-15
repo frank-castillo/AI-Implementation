@@ -170,8 +170,10 @@
     <ClCompile Include="Src\SeparationBehaviour.cpp">
       <Filter>Src\Steering</Filter>
     </ClCompile>
-    <ClCompile Include="Src\AlignmentBehaviour.cpp" />
     <ClCompile Include="Src\CohesionBehaviour.cpp">
+      <Filter>Src\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\AlignmentBehaviour.cpp">
       <Filter>Src\Steering</Filter>
     </ClCompile>
   </ItemGroup>

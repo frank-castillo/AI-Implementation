@@ -18,10 +18,14 @@ X::Math::Vector2 AI::AlignmentBehaviour::Calculate(Agent& agent)
 	}
 
 	// Divide by all agents in our neighbourhood
-	alignment /= agent.neighbours.size() + 1;
+	/*alignment /= agent.neighbours.size() + 1;
 	alignment -= agent.heading;
 	alignment *= mMultiplier;
-	const auto seekForce = alignment - agent.velocity;
+	const auto seekForce = alignment - agent.velocity;*/
+
+	alignment = X::Math::Normalize(alignment);
+	const auto desiredVelocity = alignment * agent.maxSpeed;
+	const auto seekForce = desiredVelocity - agent.velocity;
 
 	if (IsDebug())
 	{

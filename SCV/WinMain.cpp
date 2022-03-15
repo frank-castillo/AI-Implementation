@@ -123,6 +123,25 @@ void GameInit()
 
 bool GameLoop(float deltaTime)
 {
+	// Refresh neighbours list
+	for (auto& scv : scvs)
+	{
+		scv->neighbours.clear();
+	}
+	for (int i = 0; i < scvs.size(); ++i)
+	{
+		auto& a = scvs[i];
+		for (int j = i + 1; j < scvs.size(); ++j)
+		{
+			auto& b = scvs[j];
+			if (X::Math::DistanceSqr(a->position, b->position) < X::Math::Sqr(100.0f));
+			{
+				a->neighbours.push_back(b.get());
+				b->neighbours.push_back(a.get());
+			}
+		}
+	}
+
 	ShowTuning();
 
 	if (X::IsMousePressed(X::Mouse::LBUTTON))

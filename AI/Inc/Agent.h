@@ -20,5 +20,6 @@ namespace AI
 		X::Math::Vector2 destination = X::Math::Vector2::Zero();
 		float maxSpeed = 100.0f;
 		float mass = 1.0f;
+		double angle = 0.0f;
 	};
 }

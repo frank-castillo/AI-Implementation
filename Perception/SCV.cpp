@@ -86,7 +86,7 @@ void SCV::Update(float deltaTime)
 	for (auto& memory : memoryRecords)
 	{
 		auto pos = memory.GetProperty<X::Math::Vector2>("lastSeenPosition");
-		X::DrawScreenLine(position, pos, X::Colors::Beige);
+		X::DrawScreenLine(position, pos, X::Colors::Coral);
 
 		std::string score;
 		score += std::to_string(memory.importance);
