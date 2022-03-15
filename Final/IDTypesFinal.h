@@ -1,8 +1,8 @@
 #pragma once
 
-enum FinalTypes
+enum EntityTypes
 {
-	Survivor,
-	Zombie,
-	Ammo
+	SurvivorType,
+	ZombieType,
+	AmmoType
 };

@@ -75,7 +75,7 @@ bool GameLoop(float deltaTime)
 
 	survivor->Render();
 	for (auto& zombie : zombies)
-		zombie->Update(deltaTime);
+		zombie->Render();
 
 	CheckAmmoBoxCollision();
 
@@ -136,6 +136,10 @@ void DrawUI()
 	if (ImGui::Checkbox("Debug", &debug))
 	{
 		survivor->SetDebug(debug);
+		for (auto& zombie : zombies)
+		{
+			zombie->ShowDebug(debug);
+		}
 	}
 
 	ImGui::End();

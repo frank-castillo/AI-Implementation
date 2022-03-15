@@ -20,7 +20,7 @@ namespace
 }
 
 Survivor::Survivor(AI::AIWorld& world)
-	: Agent(world, FinalTypes::Survivor)
+	: Agent(world, EntityTypes::SurvivorType)
 {
 
 }
@@ -29,6 +29,7 @@ void Survivor::Load()
 {
 	mPerceptionModule = std::make_unique<AI::PerceptionModule>(*this, ComputeImportance);
 	mVisualSensor = mPerceptionModule->AddSensor<VisualSensor>();
+	mPerceptionModule->SetMemorySpan(60.0f);
 
 	mStateMachine = std::make_unique<AI::StateMachine<Survivor>>(*this);
 	mStateMachine->AddState<SurvivorWander>();

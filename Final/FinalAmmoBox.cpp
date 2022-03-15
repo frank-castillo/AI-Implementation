@@ -3,7 +3,7 @@
 #include "IDTypesFinal.h"
 
 AmmoBox::AmmoBox(AI::AIWorld& world)
-	:Entity(world, FinalTypes::Ammo)
+	:Entity(world, EntityTypes::AmmoType)
 {
 }
 

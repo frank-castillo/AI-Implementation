@@ -7,7 +7,7 @@ extern float zombieWanderRadius;
 extern float zombieWanderDistance;
 
 Zombie::Zombie(AI::AIWorld& world)
-	:Agent(world, FinalTypes::Zombie)
+	:Agent(world, EntityTypes::ZombieType)
 {
 }
 
@@ -69,7 +69,6 @@ void Zombie::Render()
 {
 	float angle = atan2(heading.y, heading.x);
 	X::DrawSprite(mTextureID, position, angle);
-	X::DrawSprite(mTextureID, position);
 }
 
 void Zombie::ShowDebug(bool debug)

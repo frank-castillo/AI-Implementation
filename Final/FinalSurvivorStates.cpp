@@ -1,4 +1,5 @@
 #include "FinalSurvivorStates.h"
+#include "IDTypesFinal.h"
 
 void SurvivorWander::Enter(Survivor& agent)
 {
@@ -8,7 +9,7 @@ void SurvivorWander::Enter(Survivor& agent)
 void SurvivorWander::Update(Survivor& agent, float deltaTime)
 {
 	const auto& memoryBanks = agent.GetMemoryRecords();
-	AI::Entity* closestZombie = agent.world.GetClosest(agent.position, FinalTypes::Zombie);
+	const AI::Entity* closestZombie = agent.world.GetClosest(agent.position, EntityTypes::ZombieType);
 	const auto distanceToZombie = closestZombie->position - agent.position;
 	const float zombieDistance = X::Math::Magnitude(distanceToZombie);
 	X::DrawScreenDiamond(closestZombie->position, 20.0f, X::Colors::Red);
@@ -16,6 +17,7 @@ void SurvivorWander::Update(Survivor& agent, float deltaTime)
 	// If the closest zombie close enough
 	if (closestZombie != nullptr && zombieDistance < 150) // add distance check
 	{
+		agent.target = closestZombie;
 		agent.ChangeState(Survivor::Run);
 	}
 	else if(!memoryBanks.empty())
@@ -47,6 +49,8 @@ void SurvivorGetAmmo::Exit(Survivor& agent)
 
 void SurvivorRun::Enter(Survivor& agent)
 {
+	agent.SetWander(false);
+	agent.SetFlee(true);
 }
 
 void SurvivorRun::Update(Survivor& agent, float deltaTime)
