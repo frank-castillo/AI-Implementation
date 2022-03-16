@@ -10,18 +10,20 @@ void SurvivorWander::Enter(Survivor& agent)
 
 void SurvivorWander::Update(Survivor& agent, float deltaTime)
 {
-	const auto& memoryBanks = agent.GetMemoryRecords();
+	agent.GetPerceptionModule()->Update(deltaTime);
 
 	const AI::Agent* closestZombie = static_cast<Zombie*>(agent.world.GetClosest(agent.position, EntityTypes::ZombieType));
 	const auto distanceToZombie = closestZombie->position - agent.position;
 	const float zombieDistance = X::Math::Magnitude(distanceToZombie);
 	X::DrawScreenDiamond(closestZombie->position, 20.0f, X::Colors::Red);
 
+	const auto& memoryBanks = agent.GetMemoryRecords();
+
 	// If the closest zombie close enough
 	if (closestZombie != nullptr && zombieDistance < 150) // add distance check
 	{
 		agent.target = closestZombie;
-		agent.ChangeState(Survivor::Run);
+		//agent.ChangeState(Survivor::Run);
 	}
 	else if(!memoryBanks.empty())
 	{
@@ -41,6 +43,8 @@ void SurvivorGetAmmo::Enter(Survivor& agent)
 {
 	agent.SetArrive(true);
 
+	agent.maxSpeed = 300.0f;
+
 	const auto& memoryRecords = agent.GetMemoryRecords();
 	if (memoryRecords.empty() == false)
 	{
@@ -50,6 +54,7 @@ void SurvivorGetAmmo::Enter(Survivor& agent)
 			if (entity->GetUniqueID() == memoryFront.uniqueId)
 			{
 				agent.destination = entity->position;
+				const int dummy = 2;
 			}
 		}
 	}
@@ -57,6 +62,17 @@ void SurvivorGetAmmo::Enter(Survivor& agent)
 
 void SurvivorGetAmmo::Update(Survivor& agent, float deltaTime)
 {
+	const AI::Agent* closestZombie = static_cast<Zombie*>(agent.world.GetClosest(agent.position, EntityTypes::ZombieType));
+	const auto distanceToZombie = closestZombie->position - agent.position;
+	const float zombieDistance = X::Math::Magnitude(distanceToZombie);
+	X::DrawScreenDiamond(closestZombie->position, 20.0f, X::Colors::Red);
+
+	// If the closest zombie close enough
+	if (closestZombie != nullptr && zombieDistance < 150) // add distance check
+	{
+		agent.target = closestZombie;
+		//agent.ChangeState(Survivor::Run);
+	}
 }
 
 void SurvivorGetAmmo::Exit(Survivor& agent)
@@ -73,8 +89,20 @@ void SurvivorRun::Enter(Survivor& agent)
 
 void SurvivorRun::Update(Survivor& agent, float deltaTime)
 {
+	const AI::Agent* closestZombie = static_cast<Zombie*>(agent.world.GetClosest(agent.position, EntityTypes::ZombieType));
+	const auto distanceToZombie = closestZombie->position - agent.position;
+	const float zombieDistance = X::Math::Magnitude(distanceToZombie);
+	X::DrawScreenDiamond(closestZombie->position, 20.0f, X::Colors::Red);
+
+	// If the closest zombie close enough
+	if (closestZombie != nullptr && zombieDistance > 150) // add distance check
+	{
+		agent.target = nullptr;
+		agent.ChangeState(Survivor::Wander);
+	}
 }
 
 void SurvivorRun::Exit(Survivor& agent)
 {
+	agent.SetFlee(false);
 }

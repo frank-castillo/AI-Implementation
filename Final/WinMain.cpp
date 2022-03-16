@@ -171,7 +171,7 @@ void CheckAmmoBoxCollision()
 			{
 				// At this point, collision has been detected!
 				ammoBox->Kill();
-				survivor.get().
+				survivor->DeleteMemory();
 				break;
 			}
 		}

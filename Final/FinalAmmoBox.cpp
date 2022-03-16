@@ -15,6 +15,8 @@ void AmmoBox::Initialize()
 	mSpriteHeight = static_cast<float>(X::GetSpriteHeight(mTextureId));
 
 	mHalfSpriteWidth = mSpriteWidth / 2.0f;
+
+	position = X::Math::Vector2{ FLT_MAX,FLT_MAX };
 }
 
 void AmmoBox::Render()

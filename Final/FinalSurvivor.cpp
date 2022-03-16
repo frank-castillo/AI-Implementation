@@ -72,7 +72,6 @@ void Survivor::Update(float deltaTime)
 	mVisualSensor->viewRange = viewRange;
 	mVisualSensor->viewHalfAngle = viewAngle * X::Math::kDegToRad;
 
-	mPerceptionModule->Update(deltaTime);
 	auto force = mSteeringModule->Calculate();
 
 	auto acceleration = force / mass;

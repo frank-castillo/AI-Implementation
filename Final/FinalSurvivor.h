@@ -31,6 +31,8 @@ public:
 	void SetWander(bool active) { mWanderBehaviour->SetActive(active); }
 
 	const auto& GetMemoryRecords() { return mPerceptionModule->GetMemoryRecords(); }
+	const auto& GetPerceptionModule() { return mPerceptionModule; }
+	void DeleteMemory() { mPerceptionModule->PopMemory(); }
 
 	X::Math::Circle GetBoundingCircle() const { return X::Math::Circle(position - X::Math::Vector2{-20.0f, 5.0f}, mHalfSpriteWidth - 30.0f); }
 	void SetDebug(bool active);
